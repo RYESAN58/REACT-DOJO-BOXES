@@ -6,6 +6,7 @@ const Boxform = (props)  => {
     const [box, boxsetter] = useState('');
     const [hasBeenSubmitted, setHasBeenSubmitted] = useState(false);
     const [color, setcolor] = useState('');
+    const [colors, setcolors] = useState([]);
 
 
     const handleBox = (e) => {
@@ -14,11 +15,12 @@ const Boxform = (props)  => {
         // console.log(e.target.value)
         // console.log({box})
     }
-
     
     const addBox = (e) => {
         e.preventDefault();
         setHasBeenSubmitted(true);
+        setcolors([...colors,color])
+        console.log(colors)
     }
     
     const boxer = () => {
@@ -41,10 +43,18 @@ const Boxform = (props)  => {
         <form onSubmit={ addBox }>
             <label for="favcolor">Select your favorite color:</label>
             <br/>
-            <input type="text" id="favcolor" name="favcolor" onChange={ (e) => boxsetter(e.target.value)}/>
+            <input type="color" id="favcolor" name="favcolor" onChange={handleBox}/>
             <input type="submit" value="Add" />
             <div>{boxer()}</div>
+            <div>
+                <div>
+                    {colors.map((color) =>{
+                        return <div style={{backgroundColor:`${color}` , height: '200px', width: '200px' }}></div>
+                        })}
+                </div>
+            </div>
     </form>
+    
     )
 }
 
