@@ -3,53 +3,50 @@ import React, {useState} from 'react';
 
 
 const Boxform = (props)  => {
-    const [box, boxsetter] = useState('');
     const [hasBeenSubmitted, setHasBeenSubmitted] = useState(false);
     const [color, setcolor] = useState('');
     const [colors, setcolors] = useState([]);
-
-
-    const handleBox = (e) => {
-        boxsetter(e.target.value)
-        setcolor(e.target.value)
-        // console.log(e.target.value)
-        // console.log({box})
-    }
+    const [heightOf, setHeight] = useState('');
+    const [widthOf, setWidth] = useState('');
+    const [style, setsyle] = useState({color:'', height:'', width: ''});
+    const [styleOb, setOb] = useState([]);
+    
     
     const addBox = (e) => {
+
         e.preventDefault();
-        setHasBeenSubmitted(true);
-        setcolors([...colors,color])
-        console.log(colors)
+        console.log(style)
+        setOb([...styleOb, {
+            height: style.height,
+            color: style.color,
+            width: style.width
+        }])
+        console.log('this is ',styleOb)
     }
-    
-    const boxer = () => {
-        if (hasBeenSubmitted === true){
-            return(
-                <div style={boxStyle({box})}>
-                    <p>{color}</p>
-                </div>)
-        }
-        else{return('')}            
-    }
-    
-    const boxStyle = (e) => ({
-        backgroundColor: {e},
-        height: '200px',
-        width: '200px',
-    });
     
     return(
         <form onSubmit={ addBox }>
             <label for="favcolor">Select your favorite color:</label>
             <br/>
-            <input type="color" id="favcolor" name="favcolor" onChange={handleBox}/>
+            
+            <input type="color" id="favcolor" name="favcolor" onChange={e => setsyle({...style , color: e.target.value})}
+            value = {style.color}
+            />
+            
+            <input type="number" id="favcolor" name="favcolor" onChange={e => setsyle({...style , height: e.target.value})}
+            value = {style.height}
+            />
+            
+            <input type="number" id="favcolor" name="favcolor" onChange={e => setsyle({...style , width: e.target.value})}
+            value = {style.width}
+            />
+            
             <input type="submit" value="Add" />
-            <div>{boxer()}</div>
+            
             <div>
                 <div>
-                    {colors.map((color) =>{
-                        return <div style={{backgroundColor:`${color}` , height: '200px', width: '200px' }}></div>
+                    {styleOb.map((obj) =>{
+                        return <div style={{backgroundColor:`${obj.color}` , height: `${obj.height}px`, width: `${obj.width}px` }}></div>
                         })}
                 </div>
             </div>
@@ -59,4 +56,3 @@ const Boxform = (props)  => {
 }
 
 export default Boxform;
-
